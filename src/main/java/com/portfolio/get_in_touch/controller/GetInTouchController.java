@@ -3,6 +3,7 @@ package com.portfolio.get_in_touch.controller;
 import com.portfolio.get_in_touch.model.GetInTouch;
 import com.portfolio.get_in_touch.service.GetInTouchServiceImpl;
 import com.portfolio.get_in_touch.utility.ResponseDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,16 +17,16 @@ public class GetInTouchController {
     }
 
     @PostMapping("/submit-details")
-    public ResponseDTO<GetInTouch> submitDetails(@RequestBody GetInTouch getInTouch){
+    public ResponseEntity<ResponseDTO<GetInTouch>> submitDetails(@RequestBody GetInTouch getInTouch){
         ResponseDTO<GetInTouch> responseDTO;
 
         if(getInTouch == null){
             responseDTO = new ResponseDTO<>("FAIL", null, "Details cannot be null");
-            return responseDTO;
+            return ResponseEntity.ok(responseDTO);
         }
         GetInTouch submittedDetails = service.submitDetails(getInTouch);
         System.out.println("Server Response : " + getInTouch);
         responseDTO = new ResponseDTO<>("Success", submittedDetails, "Details have been saved successfully");
-        return responseDTO;
+        return ResponseEntity.ok(responseDTO);
     }
 }
